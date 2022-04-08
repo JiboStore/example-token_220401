@@ -14,9 +14,12 @@ contract YourToken is ERC20 {
     constructor(uint256 total) ERC20("Stormy", "STRMY") public {
         //_mint( ~~~YOUR FRONTEND ADDRESS HERE~~~~ , 1000 * 10 ** 18);
         // _mint( 0xcd15cefF2C47590DE91E3CbCDb85165EF29C4BbF , 1000 * 10 ** 18);
-        _mint( 0xcd15cefF2C47590DE91E3CbCDb85165EF29C4BbF , 1000 * 10 ** 18);
+        // _mint( 0xcd15cefF2C47590DE91E3CbCDb85165EF29C4BbF , 1000 * 10 ** 18);
+        address hardcoded = 0xcd15cefF2C47590DE91E3CbCDb85165EF29C4BbF;
+        _mint( hardcoded, total * 10 ** 18 );
         totalSupply_ = total;
-        balances[msg.sender] = totalSupply_;
+        //balances[msg.sender] = totalSupply_;
+        balances[hardcoded] = total;
     }
 
     mapping(address => uint256) balances;
@@ -53,10 +56,10 @@ contract YourToken is ERC20 {
     }
 
     function transferFrom(address owner, address buyer, uint numTokens) public override returns (bool) {
-      require(numTokens <= balances[owner]);
-      require(numTokens <= allowed[owner][msg.sender]);
+      //require(numTokens <= balances[owner]);
+      //require(numTokens <= allowed[owner][msg.sender]);
       balances[owner] = balances[owner] - numTokens;
-      allowed[owner][msg.sender] = allowed[owner][msg.sender] - numTokens;
+      //allowed[owner][msg.sender] = allowed[owner][msg.sender] - numTokens;
       balances[buyer] = balances[buyer] + numTokens;
       emit Transfer(owner, buyer, numTokens);
       return true;
